@@ -14,6 +14,10 @@ import BorrowBook from './borrowbook.entity.js'
 import ReadingRoom from './readingroom.entity.js'
 import RoomRentalRate from './roomrentalrate.entity.js'
 import Contract from './contract.entity.js'
+import ContractReadingRoom from './contractreadingroom.entity.js'
+import ContractRate from './contractrate.entity.js'
+import LibrarianSignContract from './librariansigncontract.entity.js'
+import ReaderSignContract from './readersigncontract.entity.js'
 
 AdminJS.registerAdapter({
   Resource: AdminJSSequelize.Resource,
@@ -45,8 +49,17 @@ const start = async () => {
     },
     ReadingRoom,
     RoomRentalRate,
-    Contract
-    ]
+    Contract,
+    ContractReadingRoom,
+    ContractRate,
+    LibrarianSignContract,
+    ReaderSignContract
+    ],
+    branding: {
+      companyName: 'Library Management System', // Replace with your company name
+      softwareBrothers: false, // Disable the Software Brothers branding
+      logo: false
+    }
   }
   const admin = new AdminJS(adminOptions)
   const adminRouter = AdminJSExpress.default.buildRouter(admin)

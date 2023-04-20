@@ -1,41 +1,60 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+import AdminJS from 'adminjs'
+import * as AdminJSExpress from '@adminjs/express'
+import express from 'express'
+import * as AdminJSSequelize from '@adminjs/sequelize'
+import Person from './person.entity.js'
+import Reader from './reader.entity.js'
+import Librarian from './librarian.entity.js'
+import BookTitle from './booktitle.entity.js'
+import Book from './book.entity.js'
+import BookRoom from './bookroom.entity.js'
+import Bookshelf from './bookshelf.entity.js'
+import BookLocation from './bookLocation.entity.js'
+import BorrowBook from './borrowbook.entity.js'
+import ReadingRoom from './readingroom.entity.js'
+import RoomRentalRate from './roomrentalrate.entity.js'
+import Contract from './contract.entity.js'
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+AdminJS.registerAdapter({
+  Resource: AdminJSSequelize.Resource,
+  Database: AdminJSSequelize.Database,
+})
 
-var app = express();
+const PORT = 3000
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+const start = async () => {
+  const app = express()
+  const adminOptions = {
+    resources: [
+    Person, Reader, Librarian, BookTitle, Book, BookRoom, Bookshelf, BookLocation,
+    {
+      resource: BorrowBook,
+      options: {
+        listProperties: [
+          'readerId',
+          'readerName', // Add this line to display the reader's person name
+          'librarianId',
+          'bookNumInBorrow',
+          'bookIsbnInBorrow',
+          'borrowDate',
+          'returnDate',
+          'dueDate',
+          'penaltyFee',
+        ],
+      }
+    },
+    ReadingRoom,
+    RoomRentalRate,
+    Contract
+    ]
+  }
+  const admin = new AdminJS(adminOptions)
+  const adminRouter = AdminJSExpress.default.buildRouter(admin)
+  app.use(admin.options.rootPath, adminRouter)
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+  app.listen(PORT, () => {
+    console.log(`AdminJS started on http://localhost:${PORT}${admin.options.rootPath}`)
+  })
+}
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-module.exports = app;
+start()

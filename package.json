@@ -1,16 +1,30 @@
 {
-  "name": "express",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "node ./bin/www"
-  },
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "ejs": "~2.6.1",
-    "express": "~4.16.1",
-    "http-errors": "~1.6.3",
-    "morgan": "~1.9.1"
-  }
+    "@adminjs/express": "^6.0.0",
+    "@adminjs/sequelize": "^4.0.0",
+    "adminjs": "^7.0.0",
+    "express": "^4.18.2",
+    "express-formidable": "^1.2.0",
+    "express-session": "^1.17.3",
+    "mysql2": "^3.2.3",
+    "tslib": "^2.5.0"
+  },
+  "type": "module",
+  "name": "express",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IamBlockMan/express.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IamBlockMan/express/issues"
+  },
+  "homepage": "https://github.com/IamBlockMan/express#readme",
+  "description": ""
 }
